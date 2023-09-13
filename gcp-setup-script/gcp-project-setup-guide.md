@@ -2,7 +2,7 @@
 
 This guide provides a step-by-step process to set up a Google Cloud Platform (GCP) project using the provided automation script. The script will help you create a new GCP project, link a billing account, set up an artifact repository, and configure a service account.
 
-## Variables Explanation
+## Environment Variables Explanation
 
 Before running the script, it's essential to understand the variables used:
 
