@@ -1,10 +1,3 @@
-**GitHub repository creation guide**
-
-When creating a GitHub repository you need to follow a few organisational standardisation rules :
-- When naming your repository use lowercase. This makes it easier for command line use.
-- Use a dash ( - ) and not an underscore ( _ ) to separate words in the repository name.
-- Protect your branches.
-
 **Why you need to protect your branches**
 
 Protecting branches in GitHub is essential for maintaining code integrity, ensuring a consistent commit history, and safeguarding against disruptive changes. By mandating code reviews, preventing force pushes, and requiring scrutiny of contributions, branch protection provides a foundational layer of security and quality control in collaborative projects.
@@ -13,13 +6,11 @@ Protecting branches in GitHub is essential for maintaining code integrity, ensur
 
 1. Head on over to your repository's main page.
 2. Click on the settings options on the top right.
-
-![ezgif.com-webp-to-jpg.jpg](/.attachments/ezgif.com-webp-to-jpg-01cb8aab-4bb7-4a5a-8b1f-a85c70c8b5fa.jpg)
+<img width="502" alt="Screenshot_66" src="https://github.com/ai-cfia/dev-rel-docs/assets/9827730/6d69b604-d609-49a7-9187-2a383cb94c81">
 
 3. Click on the "Branches" tab on the right menu.
-
-![Screenshot_32.png](/.attachments/Screenshot_32-8535491a-9469-455f-bca3-be684414e1a7.png)
+<img width="222" alt="Items" src="https://github.com/ai-cfia/dev-rel-docs/assets/9827730/c940a0b0-fe99-490e-b192-25513402c6a9">
 
 4. The "Require a pull request before merging" will be unchecked, go ahead and make sure it's checked. You need to make sure "Require approvals" is checked as well and you can leave the default option for the number of required approvals.
+<img width="533" alt="Items (1)" src="https://github.com/ai-cfia/dev-rel-docs/assets/9827730/e217e350-f185-4600-91eb-e164e62de376">
 
-![Screenshot_33.png](/.attachments/Screenshot_33-d1486edf-7eda-46f2-864d-611cb8d53bb9.png)
