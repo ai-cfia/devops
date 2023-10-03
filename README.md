@@ -6,6 +6,8 @@ This repository contains scripts, configurations, and documentation related to t
 
 - **GCP Setup**: This section houses automation scripts crafted to simplify the GCP setup. It encompasses tasks such as initiating a new project, associating a billing account, orchestrating an artifact repository, and establishing a service account. Comprehensive documentation is included, ensuring you have all the guidance needed to execute the script.
 
+- **GitHub Repository Creation Guide**: This guide will show you how to create a new repository to conform to the CFIA's standards.
+
 ## Getting Started
 
 1. Clone this repository.
