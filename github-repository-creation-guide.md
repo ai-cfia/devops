@@ -29,12 +29,13 @@ Protecting branches in GitHub is essential for maintaining code integrity, ensur
 1. Head on over to your repository's main page.
 2. Click on the settings options on the top right.
 
-![ezgif.com-webp-to-jpg.jpg](/.attachments/ezgif.com-webp-to-jpg-01cb8aab-4bb7-4a5a-8b1f-a85c70c8b5fa.jpg)
+![Items (2)](https://github.com/ai-cfia/devops/assets/9827730/5be87238-af3d-4c2c-b17b-8d765f5fbbee)
 
 3. Click on the "Branches" tab on the right menu.
 
-![Screenshot_32.png](/.attachments/Screenshot_32-8535491a-9469-455f-bca3-be684414e1a7.png)
+<img width="222" alt="Items" src="https://github.com/ai-cfia/devops/assets/9827730/5b5d85ef-5713-4c60-a519-6602f86e008a">
+
 
 4. The "Require a pull request before merging" will be unchecked, go ahead and make sure it's checked. You need to make sure "Require approvals" is checked as well and you can leave the default option for the number of required approvals.
 
-![Screenshot_33.png](/.attachments/Screenshot_33-d1486edf-7eda-46f2-864d-611cb8d53bb9.png)
+<img width="533" alt="Items (1)" src="https://github.com/ai-cfia/devops/assets/9827730/fe2a4a22-19af-4f3b-96e1-03095c26ddeb">
