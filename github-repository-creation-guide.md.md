@@ -1,9 +1,24 @@
 **GitHub repository creation guide**
 
-When creating a GitHub repository you need to follow a few organisational standardisation rules :
+When creating a GitHub repository you need to follow a few organizational standardization rules :
 - When naming your repository use lowercase. This makes it easier for command line use.
 - Use a dash ( - ) and not an underscore ( _ ) to separate words in the repository name.
+- Make the repository public.
+- Add a description.
+- Create a LICENCE.md file.
 - Protect your branches.
+
+**How to create a LICENSE.md file**
+
+1. Create a new file, call it LICENSE.md
+<img width="181" alt="Screenshot_67" src="https://github.com/ai-cfia/devops/assets/9827730/540c2ee8-fc49-4c76-88c7-115ac8ffcae2">
+
+2. Click on "Choose a license template".
+
+3. Choose "MIT Licence", all the needed informations will be filled in for you.
+<img width="512" alt="Screenshot_68" src="https://github.com/ai-cfia/devops/assets/9827730/f7d4576f-1a3e-4a95-98e8-7c67dbd32705">
+
+4. You can click on "Review and submit" to create your file.
 
 **Why you need to protect your branches**
 
