@@ -5,20 +5,22 @@ When creating a GitHub repository you need to follow a few organizational standa
 - Use a dash ( - ) and not an underscore ( _ ) to separate words in the repository name.
 - Make the repository public.
 - Add a description.
-- Create a LICENCE.md file.
+- Create a LICENSE.md file.
 - Protect your branches.
 
-**How to create a LICENSE.md file**
+## How to Create a LICENSE.md File
 
-1. Create a new file, call it LICENSE.md
-<img width="181" alt="Screenshot_67" src="https://github.com/ai-cfia/devops/assets/9827730/540c2ee8-fc49-4c76-88c7-115ac8ffcae2">
+1. Create a new file and name it `LICENSE.md`.
 
-2. Click on "Choose a license template".
+![Create LICENSE.md](https://github.com/ai-cfia/devops/assets/9827730/540c2ee8-fc49-4c76-88c7-115ac8ffcae2)
 
-3. Choose "MIT Licence", all the needed informations will be filled in for you.
-<img width="512" alt="Screenshot_68" src="https://github.com/ai-cfia/devops/assets/9827730/f7d4576f-1a3e-4a95-98e8-7c67dbd32705">
+2. Click on "Choose a license template."
 
-4. You can click on "Review and submit" to create your file.
+3. Choose "MIT License," and all the needed information will be filled in for you.
+
+![Choose MIT License](https://github.com/ai-cfia/devops/assets/9827730/f7d4576f-1a3e-4a95-98e8-7c67dbd32705)
+
+4. Click on "Review and submit" to create your file.
 
 **Why you need to protect your branches**
 
@@ -38,4 +40,3 @@ Protecting branches in GitHub is essential for maintaining code integrity, ensur
 4. Make sure to check "Require a pull request before merging," and also ensure that "Require approvals" is checked. You can leave the default option for the number of required approvals.
 
 ![Branch Protection Settings](https://github.com/ai-cfia/devops/assets/9827730/fe2a4a22-19af-4f3b-96e1-03095c26ddeb)
-
