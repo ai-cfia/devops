@@ -24,18 +24,18 @@ When creating a GitHub repository you need to follow a few organizational standa
 
 Protecting branches in GitHub is essential for maintaining code integrity, ensuring a consistent commit history, and safeguarding against disruptive changes. By mandating code reviews, preventing force pushes, and requiring scrutiny of contributions, branch protection provides a foundational layer of security and quality control in collaborative projects.
 
-**How to protect your branch**
+## How to Protect Your Branch
 
-1. Head on over to your repository's main page.
-2. Click on the settings options on the top right.
+1. Go to your repository's main page.
+2. Click on the "Settings" option on the top right.
 
-![Items (2)](https://github.com/ai-cfia/devops/assets/9827730/5be87238-af3d-4c2c-b17b-8d765f5fbbee)
+![Settings](https://github.com/ai-cfia/devops/assets/9827730/5be87238-af3d-4c2c-b17b-8d765f5fbbee)
 
 3. Click on the "Branches" tab on the right menu.
 
-<img width="222" alt="Items" src="https://github.com/ai-cfia/devops/assets/9827730/5b5d85ef-5713-4c60-a519-6602f86e008a">
+![Branches Tab](https://github.com/ai-cfia/devops/assets/9827730/5b5d85ef-5713-4c60-a519-6602f86e008a)
 
+4. Make sure to check "Require a pull request before merging," and also ensure that "Require approvals" is checked. You can leave the default option for the number of required approvals.
 
-4. The "Require a pull request before merging" will be unchecked, go ahead and make sure it's checked. You need to make sure "Require approvals" is checked as well and you can leave the default option for the number of required approvals.
+![Branch Protection Settings](https://github.com/ai-cfia/devops/assets/9827730/fe2a4a22-19af-4f3b-96e1-03095c26ddeb)
 
-<img width="533" alt="Items (1)" src="https://github.com/ai-cfia/devops/assets/9827730/fe2a4a22-19af-4f3b-96e1-03095c26ddeb">
