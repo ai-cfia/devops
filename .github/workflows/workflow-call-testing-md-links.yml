@@ -1,0 +1,6 @@
+on:
+  - push
+
+jobs:
+  test-markdown-links:
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-markdown-dead-link-check.yml@issue-16-testing-markdown-links
