@@ -20,3 +20,4 @@ This repository contains scripts, configurations, and documentation related to t
 
 [this is is bad link for testing](github-repository-creation-guide.mdd)
 [this is is bad link for testing again](google.com/badlink)
+[this is is bad link for testing again](google.com/badlink2)
