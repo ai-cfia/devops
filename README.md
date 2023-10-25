@@ -19,3 +19,4 @@ This repository contains scripts, configurations, and documentation related to t
 - [Dev-Rel-Docs](https://github.com/ai-cfia/dev-rel-docs): Contains introduction files and documentation related to developer relations at AI-CFIA.
 
 [this is is bad link for testing](github-repository-creation-guide.mdd)
+[this is is bad link for testing again](google.com/badlink)
