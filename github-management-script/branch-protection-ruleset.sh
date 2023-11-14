@@ -39,19 +39,6 @@ set_branch_protection() {
         -d "${DATA}"
 }
 
-# remove_branch_protection() {
-#     REPO_NAME=$1
-#     BRANCH_NAME="main"
-
-#     API_URL="https://api.github.com/repos/${REPO_NAME}/branches/${BRANCH_NAME}/protection"
-
-#     curl -L \
-#         -X DELETE \
-#         -H "Accept: application/vnd.github.v3+json" \
-#         -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-#         "${API_URL}"
-# }
-
 # for each repo, check if .github/workflows exists
 for REPO in ${REPOS}; do
     WORKFLOWS_URL="https://api.github.com/repos/${REPO}/contents/.github/workflows"
