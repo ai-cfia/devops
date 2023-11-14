@@ -22,7 +22,7 @@ set_branch_protection() {
     DATA='{
         "required_status_checks": {
             "strict": true,
-            "contexts": ["Python package / build"]
+            "contexts": ["lint-test / build"]
         },
         "enforce_admins": true,
         "required_pull_request_reviews": {
@@ -38,6 +38,19 @@ set_branch_protection() {
         "${API_URL}" \
         -d "${DATA}"
 }
+
+# remove_branch_protection() {
+#     REPO_NAME=$1
+#     BRANCH_NAME="main"
+
+#     API_URL="https://api.github.com/repos/${REPO_NAME}/branches/${BRANCH_NAME}/protection"
+
+#     curl -L \
+#         -X DELETE \
+#         -H "Accept: application/vnd.github.v3+json" \
+#         -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+#         "${API_URL}"
+# }
 
 # for each repo, check if .github/workflows exists
 for REPO in ${REPOS}; do
