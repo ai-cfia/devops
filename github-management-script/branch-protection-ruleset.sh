@@ -22,7 +22,7 @@ set_branch_protection() {
     DATA='{
         "required_status_checks": {
             "strict": true,
-            "contexts": ["lint-test / build"]
+            "checks": ["lint-test / lint-test"]
         },
         "enforce_admins": true,
         "required_pull_request_reviews": {
