@@ -4,6 +4,11 @@ setup(
     name='devsecops-scripts',
     version='1.0.0',
     packages=find_packages(),
+    entry_points={
+        'console_scripts': [
+            'remove-previous-images=remove_previous_image.remove_previous_image:main',
+        ],
+    },
     url='https://github.com/ai-cfia/devops.git',
     author='ai-cfia',
     author_email='devsecops@inspection.gc.ca',
