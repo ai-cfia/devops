@@ -69,7 +69,9 @@ if __name__ == "__main__":
     }
     auth = HTTPBasicAuth(user, github_token)
 
-    container_path = f"{registry}/{container_name}:{unique_tag}"
+    unique_tag_formatted = unique_tag.replace("/", "-")
+
+    container_path = f"{registry}/{container_name}:{unique_tag_formatted}"
     org = registry.split("/")[1]
 
     print_console(f"Getting all tags for this container {container_path}...")
@@ -81,7 +83,7 @@ if __name__ == "__main__":
     """
     print_console(f"Looking for the previous tag...")
     try:
-        previous_tag, version_id = find_previous_container_tag(response.json(), unique_tag)
+        previous_tag, version_id = find_previous_container_tag(response.json(), unique_tag_formatted)
     except Exception as e:
         print(e)
         sys.exit() 
