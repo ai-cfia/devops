@@ -20,6 +20,22 @@ generate_codeowners() {
   echo "docker-compose.*.yml @ai-cfia/devops" >> .github/CODEOWNERS
 }
 
+create_codeowners() {
+  org_name=$1
+  repo_name=$2
+  codeowners_content=$(generate_codeowners $repo_name)
+
+  encoded_content=$(echo "$codeowners_content" | base64 -w 0)
+
+  API_URL="https://api.github.com/repos/${org_name}/${repo_name}/contents/.github/CODEOWNERS"
+
+  curl -s -X PUT \
+    -H "Accept: application/vnd.github.v3+json" \
+    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+    -d "{\"message\": \"Add CODEOWNERS file\", \"content\": \"${encoded_content}\"}" \
+    "${API_URL}" 
+}
+
 echo "Please enter your GitHub token:"
 read GITHUB_TOKEN
 
@@ -33,10 +49,6 @@ REPOS=$(curl -s -H "Accept: application/vnd.github.v3+json" \
 for REPO in ${REPOS}; do
     echo "Processing repository: ${REPO}"
 
-    # Create CODEOWNERS file
-    generate_codeowners $(basename -s .git $REPO) 
+    create_codeowners $(dirname $REPO) $(basename $REPO)
 
-    git add .github/CODEOWNERS
-    git commit -m "Add CODEOWNERS file"
-    git push origin HEAD 
 done

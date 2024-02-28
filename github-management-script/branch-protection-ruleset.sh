@@ -26,7 +26,7 @@ set_branch_protection() {
         },
         "enforce_admins": true,
         "required_pull_request_reviews": {
-            "required_approving_review_count": 1,
+            "required_approving_review_count": 1
             "require_code_owner_reviews": true
         },
         "restrictions": null
