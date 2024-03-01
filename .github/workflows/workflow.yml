@@ -1,5 +1,5 @@
 ---
-name: Howard integration workflow
+name: Devops repository workflow
 
 on:
   pull_request:
