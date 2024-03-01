@@ -20,9 +20,9 @@ the CFIA organization and applies tag rules based on repository names.
 ## Usage
 
 1. **Set Environment Variables:**
-  - `GITHUB_TOKEN`:  Store your GitHub PAT in this environment variable. 
-  - `ORG_NAME`: Set this to the name of your target GitHub organization.
+    1. `GITHUB_TOKEN`:  Store your GitHub PAT in this environment variable. 
+    2. `ORG_NAME`: Set this to the name of your target GitHub organization.
 2. **Execute the Script:** Run the script. It will:
-  - Prompt for your GitHub token (if not set).
-  - Retrieve a list of repositories within the organization.
-  - Process each repository, generating and adding the CODEOWNERS file.
+    1. Prompt for your GitHub token (if not set).
+    2. Retrieve a list of repositories within the organization.
+    3. Process each repository, generating and adding the CODEOWNERS file.
