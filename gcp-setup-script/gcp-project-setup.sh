@@ -7,36 +7,45 @@ prompt_until_input() {
     local user_input
 
     while true; do
-        echo -n "$prompt_message"
-        read user_input
-        if [[ -n "$user_input" ]]; then
+        echo -n "${prompt_message}"
+        read -r user_input
+        if [[ -n "${user_input}" ]]; then
             break
         fi
     done
-    eval "$return_var='$user_input'"
+    eval "${return_var}='${user_input}'"
 }
+
+PROJECT_ID=""
+BILLING_ACCOUNT_ID=""
 
 # Prompt the user for required variables
 prompt_until_input "Enter desired PROJECT_ID (e.g. cfia-ai-lab): " PROJECT_ID
 prompt_until_input "Enter your BILLING_ACCOUNT_ID (You can find this on the GCP Console under Billing): " BILLING_ACCOUNT_ID
 
 # Create a new project
-gcloud projects create $PROJECT_ID
+gcloud projects create "${PROJECT_ID}"
 
 # Set the project as the active project
-gcloud config set project $PROJECT_ID
+gcloud config set project "${PROJECT_ID}"
 
 # Link the billing account to the project
-gcloud beta billing projects link $PROJECT_ID --billing-account=$BILLING_ACCOUNT_ID
+gcloud beta billing projects link "${PROJECT_ID}" --billing-account="${BILLING_ACCOUNT_ID}"
 
 # Retrieve and display a list of Google Cloud regions
 echo "Available Google Cloud regions"
-gcloud compute regions list --format=value(name)
+gcloud compute regions list --format="value(name)"
 echo
+
+REGION=""
+REPO_NAME=""
+DESCRIPTION=""
+SA_NAME=""
+SA_DISPLAY_NAME=""
+FILE_NAME=""
 
 # Prompt user for necessary variables
 prompt_until_input "Enter a Google Cloud region from the above list: " REGION
-prompt_until_input "Enter a name for your Google Cloud project: " PROJECT_NAME
 prompt_until_input "Enter the Docker repository name: " REPO_NAME
 prompt_until_input "Enter a description for the Docker repository [Optional]: " DESCRIPTION
 prompt_until_input "Enter a name for your service account: " SA_NAME
@@ -46,16 +55,16 @@ prompt_until_input "Choose a name for the JSON key file (without .json): " FILE_
 # Execute commands
 
 # Create an artifact repository
-gcloud artifacts repositories create $REPO_NAME \
+gcloud artifacts repositories create "${REPO_NAME}" \
    --repository-format=docker \
-   --location=$REGION \
-   --description="$DESCRIPTION"
+   --location="${REGION}" \
+   --description="${DESCRIPTION}"
 
 # Create a service account (SA)
-gcloud iam service-accounts create $SA_NAME --display-name "$SA_DISPLAY_NAME"
+gcloud iam service-accounts create "${SA_NAME}" --display-name "${SA_DISPLAY_NAME}"
 
 # Create the key for the service account (SA)
-gcloud iam service-accounts keys create "$FILE_NAME.json" --iam-account=$SA_NAME@$PROJECT_ID.iam.gserviceaccount.com
+gcloud iam service-accounts keys create "${FILE_NAME}.json" --iam-account="${SA_NAME}"@"${PROJECT_ID}".iam.gserviceaccount.com
 
 # Automatically apply the roles to the service account
 ROLES=(
@@ -65,9 +74,9 @@ ROLES=(
 )
 
 for ROLE in "${ROLES[@]}"; do
-    gcloud projects add-iam-policy-binding $PROJECT_ID \
-       --member=serviceAccount:$SA_NAME@$PROJECT_ID.iam.gserviceaccount.com \
-       --role=$ROLE
+    gcloud projects add-iam-policy-binding "${PROJECT_ID}" \
+       --member=serviceAccount:"${SA_NAME}"@"${PROJECT_ID}".iam.gserviceaccount.com \
+       --role="${ROLE}"
 done
 
 echo "All commands executed successfully!"
