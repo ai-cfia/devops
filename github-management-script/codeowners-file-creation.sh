@@ -1,40 +1,59 @@
 #!/bin/bash
 generate_codeowners() {
-  repo_name=$1
+  local repo_name=$1
+  local content=""
 
-  echo "# This CODEOWNERS file is auto-generated. See the script for modification details." > .github/CODEOWNERS
+  content+="# This CODEOWNERS file is auto-generated. See the script at <https://github.com/ai-cfia/devops/blob/main/github-management-script/codeowners-file-creation.sh> for modification details.\n\n"
 
-  # Default rules for AI-CFIA ownership for repositories which name ends with "backend", "frontend" or "db"
-  if [[ ${repo_name} == *"backend" ]]; then
-    echo "* @ai-cfia/backend" >> .github/CODEOWNERS
-  elif [[ ${repo_name} == *"frontend" ]]; then
-    echo "* @ai-cfia/frontend" >> .github/CODEOWNERS
-  elif [[ ${repo_name} == *"db" ]]; then
-    echo "* @ai-cfia/data" >> .github/CODEOWNERS
+  if [[ ${repo_name} == *"backend"* ]]; then
+    content+="* @ai-cfia/backend\n"
+  elif [[ ${repo_name} == *"frontend"* ]]; then
+    content+="* @ai-cfia/frontend\n"
+  elif [[ ${repo_name} == *"db"* ]]; then
+    content+="* @ai-cfia/data\n"
   fi
 
-  {
-    echo "/.github/ @ai-cfia/devops"
-    echo "Dockerfile @ai-cfia/devops"
-    echo "docker-compose.yml @ai-cfia/devops"
-    echo "docker-compose.*.yml @ai-cfia/devops"
-  } >> .github/CODEOWNERS
+  content+="/.github/ @ai-cfia/devops\n"
+  content+="Dockerfile @ai-cfia/devops\n"
+  content+="docker-compose.yml @ai-cfia/devops\n"
+  content+="docker-compose.*.yml @ai-cfia/devops\n"
+
+  printf "%b" "${content}"
 }
 
 create_codeowners() {
-  org_name=$1
-  repo_name=$2
-  codeowners_content=$(generate_codeowners "${repo_name}")
+  local org_name=$1
+  local repo_name=$2
+  local codeowners_content
+  codeowners_content="$(generate_codeowners "${repo_name}")"
+  codeowners_content+=$'\n'
+  
+  local API_URL="https://api.github.com/repos/${org_name}/${repo_name}/contents/.github/CODEOWNERS"
 
-  encoded_content=$(echo "${codeowners_content}" | base64 -w 0)
+  # Extract the SHA from the response, if the file exists. Common requirement 
+  # when updating an existing file in a repository.
+  local response
+  response=$(curl -s -H "Authorization: Bearer ${GITHUB_TOKEN}" "${API_URL}")
+  local sha
+  sha=$(echo "${response}" | jq -r '.sha // empty')
 
-  API_URL="https://api.github.com/repos/${org_name}/${repo_name}/contents/.github/CODEOWNERS"
+  local encoded_content
+  encoded_content=$(printf "%b" "${codeowners_content}" | base64 -w 0)
+
+  local json_data
+  if [[ -n "${sha}" ]]; then
+    # If the file exists, include the SHA in the request to update it
+    json_data="{\"message\": \"Update CODEOWNERS file with EOF line\", \"content\": \"${encoded_content}\", \"sha\": \"${sha}\"}"
+  else
+    # If the file doesn't exist, the SHA is not required
+    json_data="{\"message\": \"Add CODEOWNERS file\", \"content\": \"${encoded_content}\"}"
+  fi
 
   curl -s -X PUT \
     -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-    -d "{\"message\": \"Add CODEOWNERS file\", \"content\": \"${encoded_content}\"}" \
-    "${API_URL}" 
+    -d "${json_data}" \
+    "${API_URL}"
 }
 
 echo "Please enter your GitHub token:"
