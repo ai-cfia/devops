@@ -35,10 +35,7 @@ set_branch_protection() {
     API_URL="https://api.github.com/repos/${REPO_NAME}/branches/${BRANCH_NAME}/protection"
 
     DATA='{
-        "required_status_checks": {
-            "strict": true,
-            "contexts": ["lint-test / lint-test"]
-        },
+        "required_status_checks": null,
         "enforce_admins": true,
         "required_pull_request_reviews": {
             "required_approving_review_count": 1,

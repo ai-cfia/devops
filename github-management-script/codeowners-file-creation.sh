@@ -31,7 +31,7 @@ create_codeowners() {
   API_URL="https://api.github.com/repos/${org_name}/${repo_name}/contents/.github/CODEOWNERS"
 
   curl -s -X PUT \
-    -H "Accept: application/vnd.github.v3+json" \
+    -H "Accept: application/vnd.github+json" \
     -H "Authorization: Bearer ${GITHUB_TOKEN}" \
     -d "{\"message\": \"Add CODEOWNERS file\", \"content\": \"${encoded_content}\"}" \
     "${API_URL}" 
@@ -41,15 +41,26 @@ echo "Please enter your GitHub token:"
 read -r GITHUB_TOKEN
 
 ORG_NAME="ai-cfia"
-API_URL="https://api.github.com/orgs/${ORG_NAME}/repos?type=public"
-RESPONSE=$(curl -s -H "Accept: application/vnd.github.v3+json" \
-    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-    "${API_URL}")
-REPOS=$(echo "${RESPONSE}" | jq -r '.[].full_name')
+PAGE=1
+PER_PAGE=100
 
-for REPO in ${REPOS}; do
+while :; do
+  API_URL="https://api.github.com/orgs/${ORG_NAME}/repos?type=public&per_page=${PER_PAGE}&page=${PAGE}"
+
+  RESPONSE=$(curl -s -H "Accept: application/vnd.github+json" \
+                    -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+                    "${API_URL}")
+
+  REPOS=$(echo "${RESPONSE}" | jq -r '.[].full_name')
+  
+  if [[ -z "${REPOS}" ]]; then
+    break
+  fi
+
+  for REPO in ${REPOS}; do
     echo "Processing repository: ${REPO}"
+    create_codeowners "${ORG_NAME}" "$(basename "${REPO}")"
+  done
 
-    create_codeowners "$(dirname "${REPO}") $(basename "${REPO}")"
-
+  ((PAGE++))
 done
