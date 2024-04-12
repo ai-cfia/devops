@@ -12,10 +12,12 @@ add_team_to_repo() {
     local org=$2
     local repo=$3
     local permission=$4
-    local owner=$5
-
-    curl -s -X PUT -H "Authorization: token ${GITHUB_TOKEN}" \
-        "https://api.github.com/orgs/${org}/teams/${team_slug}/repos/${owner}/${repo}" \
+    curl -L \
+        -X PUT \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        "https://api.github.com/orgs/${org}/teams/${team_slug}/repos/${repo}" \
         -d "{\"permission\":\"${permission}\"}"
 }
 
@@ -40,21 +42,46 @@ while :; do
         TEAM_SLUG='backend'
     elif [[ "${REPO}" == *frontend* ]]; then
         TEAM_SLUG='frontend'
-    elif [[ "${REPO}" == *db* ]]; then
-        TEAM_SLUG='db'
-    else
-        TEAM_SLUG='devops'
     fi
 
-    echo "Adding team \"${TEAM_SLUG}\" to repo \"${REPO}\" with permission \"${TEAM_PERMISSION}\""
-    add_team_to_repo "${TEAM_SLUG}" "${ORG_NAME}" "${REPO}" "${TEAM_PERMISSION}"
-
-    if [[ "${TEAM_SLUG}" != "${ADMIN_TEAM_SLUG}" ]]; then
-        echo "Adding team \"${ADMIN_TEAM_SLUG}\" to repo \"${REPO}\" with permission \"${TEAM_PERMISSION}\""
-        add_team_to_repo "${ADMIN_TEAM_SLUG}" "${ORG_NAME}" "${REPO}" "${TEAM_PERMISSION}"
-    else
-        echo "... Skipped adding team \"${ADMIN_TEAM_SLUG}\" as it is the same as \"${TEAM_SLUG}\""
+    if [[ "${REPO}" == *db* ]] || [[ "${REPO}" == *data* ]]; then
+        TEAM_SLUG='data'
     fi
+
+    if [[ "${REPO}" == *nachet* ]]; then
+        PRODUCT_SLUG='nachet'
+    elif [[ "${REPO}" == *finesse* ]]; then
+        PRODUCT_SLUG='finesse'
+    elif [[ "${REPO}" == *harvester* ]]; then
+        PRODUCT_SLUG='harvester'     
+    fi
+
+    if [[ "${TEAM_SLUG}" != '' ]]; then
+        echo "Adding team \"${TEAM_SLUG}\" to repo \"${REPO}\" with permission \"${TEAM_PERMISSION}\""
+        add_team_to_repo "${TEAM_SLUG}" "${ORG_NAME}" "${REPO}" "${TEAM_PERMISSION}"
+
+        if [[ "${TEAM_SLUG}" != "${ADMIN_TEAM_SLUG}" ]]; then
+            echo "Adding team \"${ADMIN_TEAM_SLUG}\" to repo \"${REPO}\" with permission \"${TEAM_PERMISSION}\""
+            add_team_to_repo "${ADMIN_TEAM_SLUG}" "${ORG_NAME}" "${REPO}" "${TEAM_PERMISSION}"
+        else
+            echo "... Skipped adding team \"${ADMIN_TEAM_SLUG}\" as it is the same as \"${TEAM_SLUG}\""
+        fi
+    else
+        echo "Skipping.. No team found for repo \"${REPO}\""
+    fi
+
+    if [[ "${PRODUCT_SLUG}" != '' ]]; then
+        echo "Adding product team \"${PRODUCT_SLUG}\" to repo \"${REPO}\" with permission \"${TEAM_PERMISSION}\""
+        add_team_to_repo "${PRODUCT_SLUG}" "${ORG_NAME}" "${REPO}" "${TEAM_PERMISSION}"
+    else
+        echo "Skipping.. No product team found for repo \"${REPO}\""
+    fi
+
+    echo "Adding team devops to repo \"${REPO}\" with permission \"${TEAM_PERMISSION}\""
+    add_team_to_repo "devops" "${ORG_NAME}" "${REPO}" "${TEAM_PERMISSION}"
+
+    TEAM_SLUG=''
+    PRODUCT_SLUG=''
   done
 
   ((PAGE++))

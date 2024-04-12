@@ -8,7 +8,8 @@ the CFIA organization and applies tag rules based on repository names.
 * **Creates CODEOWNERS Files:**  The script generates CODEOWNERS files in target
   repositories, defining code ownership rules to streamline the review process.
 * **Customizable Team Tagging:** It tags relevant teams (`backend`, `frontend`,
-  `data`, `devops`) based on the repository name.
+  `data`, `devops`, `finesse`, `harvester`, `nachet`) based on the repository
+  name.
 * **DevOps Ownership:** The script assigns specific ownership to the DevOps team
   for files within the `.github` directory, Dockerfile, and docker-compose
   configurations.
