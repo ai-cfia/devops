@@ -10,7 +10,8 @@ that an administrative team is added to each repository.
 - **Automated Team Assignment:** Automatically adds a specified team to all
   repositories within a given GitHub organization.
 - **Dynamic Team Assignment:** The script assigns teams (`backend`, `frontend`,
-  `db`) dynamically based on the naming convention of the repositories.
+  `data`, `finesse`, `nachet`, `harvester`) dynamically based on the naming
+  convention of the repositories.
 - **Admin Team Enforcement:** Ensures that an administrative team is added to
   every repository, regardless of its naming convention.
 
@@ -27,9 +28,8 @@ that an administrative team is added to each repository.
 
 2. **Configuration:**
    - Open the script in your text editor.
-   - Fill in the `GITHUB_ORG`, `TEAM_PERMISSION` and
-     `ADMIN_TEAM_SLUG` variables with the appropriate values for your GitHub
-     organization and teams.
+   - Fill in the `GITHUB_ORG`, `TEAM_PERMISSION` and `ADMIN_TEAM_SLUG` variables
+     with the appropriate values for your GitHub organization and teams.
 
 3. **Run the Script:**
    - Open your terminal and navigate to the directory containing the script.

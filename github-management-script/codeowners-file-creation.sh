@@ -9,8 +9,18 @@ generate_codeowners() {
     content+="* @ai-cfia/backend\n"
   elif [[ ${repo_name} == *"frontend"* ]]; then
     content+="* @ai-cfia/frontend\n"
-  elif [[ ${repo_name} == *"db"* ]]; then
+  fi
+
+  if [[ ${repo_name} == *"db"* ]]; then
     content+="* @ai-cfia/data\n"
+  fi
+
+  if [[ "${repo_name}" == *nachet* ]]; then
+      content+="* @ai-cfia/nachet\n"
+  elif [[ "${repo_name}" == *finesse* ]]; then
+      content+="* @ai-cfia/finesse\n"
+  elif [[ "${repo_name}" == *harvester* ]]; then
+      content+="* @ai-cfia/harvester\n"
   fi
 
   content+="/.github/ @ai-cfia/devops\n"
@@ -43,7 +53,7 @@ create_codeowners() {
   local json_data
   if [[ -n "${sha}" ]]; then
     # If the file exists, include the SHA in the request to update it
-    json_data="{\"message\": \"Update CODEOWNERS file with EOF line\", \"content\": \"${encoded_content}\", \"sha\": \"${sha}\"}"
+    json_data="{\"message\": \"Update CODEOWNERS file\", \"content\": \"${encoded_content}\", \"sha\": \"${sha}\"}"
   else
     # If the file doesn't exist, the SHA is not required
     json_data="{\"message\": \"Add CODEOWNERS file\", \"content\": \"${encoded_content}\"}"
