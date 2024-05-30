@@ -1,0 +1,64 @@
+# Manual build/push fo now
+name: Image build
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        required: true
+        description: Image a build
+        type: choice
+        options:
+          - nginx
+      tag:
+        required: true
+        description: Version a tag l'image
+
+env:
+    REGISTRY: ghcr.io/ai-cfia
+
+jobs:
+    build-on-release:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Check Out Repo
+            uses: actions/checkout@v4
+    
+          - name: Set up Docker Buildx
+            id: buildx
+            uses: docker/setup-buildx-action@v3
+    
+          - name: Log in to the Container registry
+            uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+            with:
+              registry: ${{ env.REGISTRY }}
+              username: ${{ github.actor }}
+              password: ${{ secrets.GITHUB_TOKEN }}
+    
+          - name: Cache Docker layers
+            uses: actions/cache@v3
+            with:
+              path: /tmp/.buildx-cache
+              key: ${{ runner.os }}-buildx-${{ github.sha }}
+              restore-keys: ${{ runner.os }}-buildx
+    
+          - name: Build and push
+            id: docker_build
+            uses: docker/build-push-action@v5
+            with:
+              context: ./${{ inputs.image }}
+              file: ./${{ inputs.image }}/Dockerfile
+              push: true
+              tags: |
+                ${{ env.REGISTRY }}/${{ inputs.image }}:${{ inputs.tag }}
+                ${{ env.REGISTRY }}/${{ inputs.image }}:latest
+              cache-from: type=local,src=/tmp/.buildx-cache
+              cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
+    
+          - name: Refresh Cache
+            run: |
+              rm -rf /tmp/.buildx-cache
+              mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+    
+          - name: Image digest
+            run: echo ${{ steps.docker_build.outputs.digest }}
