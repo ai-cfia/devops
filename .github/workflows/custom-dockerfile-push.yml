@@ -47,7 +47,7 @@ jobs:
             uses: docker/build-push-action@v5
             with:
               context: ./${{ inputs.image }}
-              file: ./${{ inputs.image }}/Dockerfile
+              file: ./dockerfiles/${{ inputs.image }}/Dockerfile
               push: true
               tags: |
                 ${{ env.REGISTRY }}/${{ inputs.image }}:${{ inputs.tag }}
