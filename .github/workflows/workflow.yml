@@ -16,6 +16,8 @@ jobs:
   yaml-check:
     uses:
       ai-cfia/github-workflows/.github/workflows/workflow-yaml-check.yml@main
+    with:
+      config-file-path: '.yamllint.yml'
 
   sh-check:
     uses:
