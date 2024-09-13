@@ -10,6 +10,7 @@ on:
         type: choice
         options:
           - nginx
+          - postgres
       tag:
         required: true
         description: Version a tag l'image
