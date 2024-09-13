@@ -53,4 +53,3 @@ Compose setup for the **Fertiscan** project:
         volumes:
         - postgres-data:/var/lib/postgresql/data
 ```
-
