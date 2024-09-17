@@ -16,7 +16,7 @@ on:
 
 jobs:
   build-on-release:
-    uses: ai-cfia/github-workflows/.github/workflows/workflow-build-push-container-github-registry.yml@154-as-a-devops-i-would-like-to-provide-compatibility-of-our-packages-across-platform
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-build-push-container-github-registry.yml@main
     with:
       container-name: ${{ github.event.inputs.image }}
       tag: ${{ github.event.inputs.tag }}
