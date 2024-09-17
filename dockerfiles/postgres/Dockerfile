@@ -15,3 +15,5 @@ RUN chmod 700 /app
 USER postgres
 
 ENTRYPOINT ["/app/entrypoint.sh"]
+
+CMD ["postgres"]

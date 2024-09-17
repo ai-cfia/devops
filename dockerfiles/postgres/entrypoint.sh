@@ -2,4 +2,4 @@
 
 python3 /app/fetch_schema.py
 
-exec postgres
+exec docker-entrypoint.sh "$@"
