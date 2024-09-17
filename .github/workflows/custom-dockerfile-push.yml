@@ -14,14 +14,11 @@ on:
         required: true
         description: Version to tag the image
 
-env:
-  REGISTRY: ghcr.io/ai-cfia
-
 jobs:
   build-on-release:
     uses: ai-cfia/github-workflows/.github/workflows/workflow-build-push-container-github-registry.yml@154-as-a-devops-i-would-like-to-provide-compatibility-of-our-packages-across-platform
     with:
       container-name: ${{ github.event.inputs.image }}
       tag: ${{ github.event.inputs.tag }}
-      registry: ${{ env.REGISTRY }}
+      registry: ghcr.io/ai-cfia
       dockerfile-folder-path: ./dockerfiles/${{ inputs.image }}
