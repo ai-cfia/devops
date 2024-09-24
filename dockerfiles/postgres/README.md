@@ -20,6 +20,8 @@ are required:
   schema.
 - `BB_DATABASE_ID` – The ID of the specific database schema to be fetched from
   Bytebase.
+- `PROJECT_NAME` – The name of the project to which the database belongs. This
+  is used to insert initial data into the database of FeritScan.
 
 ## Usage example
 
