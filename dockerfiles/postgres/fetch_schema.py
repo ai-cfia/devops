@@ -26,7 +26,7 @@ def generate_token():
         print(f"Failed to generate token: {response.status_code}, {response.text}")
         return None
 
-def fetch_fertiscan_dev_schema():
+def fetch_schema():
     token = generate_token()
     if token:
         schema_url = f"{BB_URL}/v1/instances/{INSTANCE_ID}/databases/{DATABASE_ID}/schema"
@@ -46,4 +46,4 @@ def fetch_fertiscan_dev_schema():
         print("No token generated, cannot fetch schema.")
 
 if __name__ == "__main__":
-    fetch_fertiscan_dev_schema()
+    fetch_schema()
