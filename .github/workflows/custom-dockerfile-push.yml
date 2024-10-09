@@ -10,6 +10,7 @@ on:
         options:
           - nginx
           - postgres
+          - otel-app
       tag:
         required: true
         description: Version to tag the image
