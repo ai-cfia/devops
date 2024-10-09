@@ -20,4 +20,4 @@ RUN opentelemetry-bootstrap --action=install
 
 EXPOSE 8080
 
-CMD ["opentelemetry-instrument", "python3", "app.py"]
+CMD ["opentelemetry-instrument", "python3", "main.py"]
