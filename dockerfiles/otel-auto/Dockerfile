@@ -1,6 +1,6 @@
 FROM python:3.10-slim
 
-ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy.monitoring.svc.cluster.local:4317
+ENV OTEL_EXPORTER_OTLP_ENDPOINT=http://alloy.monitoring.svc.cluster.local:4318
 ENV OTEL_PYTHON_LOG_CORRELATION=true
 
 WORKDIR /app
