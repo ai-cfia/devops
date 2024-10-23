@@ -20,9 +20,14 @@ RUN dnf install -y \
 RUN wget https://dbeaver.io/files/dbeaver-ce-latest-linux.gtk.x86_64.tar.gz && \
     tar -zxvf dbeaver-ce-latest-linux.gtk.x86_64.tar.gz && \
     mv dbeaver /usr/share/ && \
-    echo -e "[Desktop Entry]\nName=DBeaver\nExec=/usr/share/dbeaver/dbeaver\nIcon=/usr/share/dbeaver/dbeaver.png\nType=Application\nCategories=Development;IDE;" > /usr/share/applications/dbeaver.desktop && \
+    ln -s /usr/share/dbeaver/dbeaver /usr/bin/dbeaver && \
+    echo -e "[Desktop Entry]\nName=DBeaver\nExec=/usr/share/dbeaver/dbeaver\nIcon=/usr/share/dbeaver/dbeaver.png\nType=Application\nCategories=Development;IDE;" > /usr/share/applications/dbeaver && \
     chmod +x -R /usr/share/dbeaver/ && \
     rm dbeaver-ce-latest-linux.gtk.x86_64.tar.gz
+
+# Vérification des permissions d'exécution
+RUN chmod +x /usr/share/dbeaver/dbeaver && \
+    chmod +x /usr/bin/dbeaver
 
 # Download Visual Studio Code RPM directly
 RUN curl -L -o vscode.rpm https://update.code.visualstudio.com/latest/linux-rpm-x64/stable && \
