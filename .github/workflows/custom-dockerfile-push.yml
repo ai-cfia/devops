@@ -11,6 +11,8 @@ on:
           - nginx
           - postgres
           - otel-auto
+          - webtop-fedora-kde
+          - webtop-ubuntu-kde
       tag:
         required: true
         description: Version to tag the image
