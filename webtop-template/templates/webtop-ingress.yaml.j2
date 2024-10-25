@@ -18,7 +18,7 @@ spec:
   tls:
     - hosts:
         - {{ username }}-webtop.inspection.alpha.canada.ca
-      secretName: webtop-tls
+      secretName: {{ username }}-webtop-tls
   rules:
     - host: {{ username }}-webtop.inspection.alpha.canada.ca
       http:
