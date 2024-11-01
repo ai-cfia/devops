@@ -1,0 +1,27 @@
+name: Image build
+
+on:
+  workflow_dispatch:
+    inputs:
+      image:
+        required: true
+        description: Image to build
+        type: choice
+        options:
+          - nginx
+          - postgres
+          - otel-auto
+          - webtop-fedora-kde
+          - webtop-ubuntu-kde
+      tag:
+        required: true
+        description: Version to tag the image
+
+jobs:
+  build-on-release:
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-build-push-container-github-registry.yml@main
+    with:
+      container-name: ${{ github.event.inputs.image }}
+      tag: ${{ github.event.inputs.tag }}
+      registry: ghcr.io/ai-cfia
+      dockerfile-folder-path: ./dockerfiles/${{ inputs.image }}
