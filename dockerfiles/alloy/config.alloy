@@ -1,0 +1,87 @@
+// Load endpoint credentials and options
+local.file "endpoints" {
+    filename = "/etc/alloy/endpoints.json"
+}
+
+// Metrics scraping configuration
+prometheus.scrape "infrastructure" {
+    targets = [
+        {"__address__" = "prometheus:9090", group = "infrastructure", service = "prometheus"},
+        {"__address__" = "tempo:3200", group = "infrastructure", service = "tempo"},
+        {"__address__" = "loki:3100", group = "infrastructure", service = "loki"},
+        {"__address__" = "grafana:3000", group = "infrastructure", service = "grafana"},
+    ]
+    scrape_interval = "15s"
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// OTLP Receiver for OpenTelemetry data
+otelcol.receiver.otlp "default" {
+    grpc { }
+    http { }
+
+    output {
+        metrics = [otelcol.exporter.prometheus.default.input]
+        logs    = [otelcol.exporter.loki.default.input]
+        traces  = [otelcol.exporter.otlp.tempo.input]
+    }
+}
+
+// Memory Limiter Processor to manage memory
+otelcol.processor.memory_limiter "default" {
+    check_interval = "1s"
+    limit          = "1GiB"
+    output {
+        metrics = [otelcol.processor.batch.default.input]
+        logs    = [otelcol.processor.batch.default.input]
+        traces  = [otelcol.processor.batch.default.input]
+    }
+}
+
+// Batch Processor for batching trace data
+otelcol.processor.batch "default" {
+    output {
+        metrics = [otelcol.exporter.prometheus.default.input]
+        logs    = [otelcol.exporter.loki.default.input]
+        traces  = [otelcol.exporter.otlp.tempo.input]
+    }
+}
+
+// Logging configuration
+logging {
+    level  = "info"
+    format = "logfmt"
+}
+
+// Loki Exporter for logs
+otelcol.exporter.loki "default" {
+    forward_to = [loki.write.default.receiver]
+}
+
+// Write logs to the local Loki instance
+loki.write "default" {
+    endpoint {
+        url = "http://loki:3100/loki/api/v1/push"
+    }
+}
+
+// Tempo Exporter for trace data
+otelcol.exporter.otlp "tempo" {
+    client {
+        endpoint = "http://tempo:4317"
+        tls {
+            insecure = true
+        }
+    }
+}
+
+otelcol.exporter.prometheus "default" {
+    forward_to = [prometheus.remote_write.default.receiver]
+}
+
+// Remote write configuration to Prometheus instance
+prometheus.remote_write "default" {
+    endpoint {
+        url = "http://prometheus:9090/api/v1/write"
+    }
+}

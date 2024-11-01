@@ -13,6 +13,10 @@ on:
           - otel-auto
           - webtop-fedora-kde
           - webtop-ubuntu-kde
+          - alloy
+          - tempo
+          - loki
+          - prometheus
       tag:
         required: true
         description: Version to tag the image
