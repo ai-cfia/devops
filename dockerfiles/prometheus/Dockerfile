@@ -1,5 +1,7 @@
 FROM prom/prometheus:latest
+COPY prometheus.yml.tmpl /etc/prometheus/prometheus.yml.tmpl
+COPY entrypoint.sh /entrypoint.sh
 
-COPY prometheus.yaml /etc/prometheus/prometheus.yml
+ENV ENABLE_BACKEND_METRICS=false
 
-CMD ["--config.file=/etc/prometheus/prometheus.yml", "--web.enable-remote-write-receiver"]
+ENTRYPOINT ["/entrypoint.sh"]
