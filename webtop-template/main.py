@@ -60,12 +60,19 @@ def create_github_pr(username, gh_access_token):
     
     print(f"Pull request created: {pr.html_url}")
 
-if __name__ == '__main__':
-    username = sys.argv[1]
+def send_email(username, email, password):
 
+    print(f"Email sent successfully to: {email}")
+
+
+if __name__ == '__main__':
     load_dotenv()
 
     gh_access_token = os.getenv("GITHUB_ACCESS_TOKEN")
+    username = os.getenv("USERNAME")
+    email = os.getenv("EMAIL")
+    password = os.getenv("PASSWORD")
 
     render_template(username)
     create_github_pr(username, gh_access_token)
+    send_email(username, email, password)
