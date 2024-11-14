@@ -1,4 +1,4 @@
-# GitHub repository creation guide
+# GitHub Repository Creation Guide
 
 When creating a GitHub repository you need to follow a few organizational
 standardization rules :
@@ -11,6 +11,7 @@ standardization rules :
 - Add a description.
 - Create a LICENSE.md file.
 - Protect your branches.
+- Enable secret scanning and push protection.
 
 ## How to Create a LICENSE.md File
 
@@ -26,7 +27,7 @@ License](https://github.com/ai-cfia/devops/assets/9827730/f7d4576f-1a3e-4a95-98e
 
 4. Click on "Review and submit" to create your file.
 
-## Why you need to protect your branches
+## Why You Need to Protect Your Branches
 
 Protecting branches in GitHub is essential for maintaining code integrity,
 ensuring a consistent commit history, and safeguarding against disruptive
@@ -49,3 +50,27 @@ Tab](https://github.com/ai-cfia/devops/assets/9827730/5b5d85ef-5713-4c60-a519-66
    number of required approvals.
     - ![Branch Protection
 Settings](https://github.com/ai-cfia/devops/assets/9827730/fe2a4a22-19af-4f3b-96e1-03095c26ddeb)
+
+## How to Enable Secret Scanning and Push Protection
+
+Enabling secret scanning and push protection in GitHub repositories helps
+prevent sensitive information, such as API keys, passwords, and tokens, from
+being inadvertently exposed in your codebase. Secret scanning detects exposed
+secrets, while push protection actively blocks commits containing known secrets.
+If a secret is leaked, repository administrators receive an alert. 
+
+To enable these functionalities: 
+
+1. From the main page of your repository, click **Settings**. ![Repository
+Settings]({186D1DE0-B70F-4DAA-8267-D8029BB90F66}.png)
+
+1. In the sidebar, scroll down to the **Security** section and click **Code
+   security**.
+
+1. Scroll down to the **Secret scanning** section and click **Enable**. ![Enable
+Secret scanning]({88B79545-E575-41D6-AAB5-EBD53195E25F}.png)
+
+1. After enabling Secret scanning, the option to enable Push protection will
+appear. Click **Enable**. ![Enable Push
+protection]({EE4585DB-1219-43A3-BDF0-B8E6F0ADCEDB}.png)
+
