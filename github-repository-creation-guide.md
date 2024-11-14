@@ -57,20 +57,18 @@ Enabling secret scanning and push protection in GitHub repositories helps
 prevent sensitive information, such as API keys, passwords, and tokens, from
 being inadvertently exposed in your codebase. Secret scanning detects exposed
 secrets, while push protection actively blocks commits containing known secrets.
-If a secret is leaked, repository administrators receive an alert. 
+If a secret is leaked, repository administrators receive an alert.
 
-To enable these functionalities: 
+To enable these functionalities:
 
 1. From the main page of your repository, click **Settings**. ![Repository
-Settings]({186D1DE0-B70F-4DAA-8267-D8029BB90F66}.png)
+Settings](./images/{186D1DE0-B70F-4DAA-8267-D8029BB90F66}.png)
 
-1. In the sidebar, scroll down to the **Security** section and click **Code
-   security**.
+1. In the sidebar, scroll down to the **Security** section and click **Code security**.
 
 1. Scroll down to the **Secret scanning** section and click **Enable**. ![Enable
-Secret scanning]({88B79545-E575-41D6-AAB5-EBD53195E25F}.png)
+Secret scanning](./images/{88B79545-E575-41D6-AAB5-EBD53195E25F}.png)
 
 1. After enabling Secret scanning, the option to enable Push protection will
 appear. Click **Enable**. ![Enable Push
-protection]({EE4585DB-1219-43A3-BDF0-B8E6F0ADCEDB}.png)
-
+protection](./images/{EE4585DB-1219-43A3-BDF0-B8E6F0ADCEDB}.png)
