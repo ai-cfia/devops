@@ -1,0 +1,21 @@
+name: Integration workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        required: true
+        description: "Enter your username"
+        type: string
+      email:
+        required: true
+        description: "Enter your email address"
+        type: string
+
+jobs:
+  integration:
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-integration.yml@158-implement-a-workflow-to-capture-user-inputs-and-trigger-template-rendering
+    with:
+      username: ${{ github.event.inputs.username }}
+      email: ${{ github.event.inputs.email }}
+    secrets: inherit
