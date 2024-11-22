@@ -1,4 +1,3 @@
-import sys
 import os
 from dotenv import load_dotenv
 
@@ -61,11 +60,10 @@ def create_github_pr(username, gh_access_token):
     print(f"Pull request created: {pr.html_url}")
 
 if __name__ == '__main__':
-    username = sys.argv[1]
-
     load_dotenv()
 
     gh_access_token = os.getenv("GITHUB_ACCESS_TOKEN")
+    username = os.getenv("USERNAME")
 
     render_template(username)
     create_github_pr(username, gh_access_token)
