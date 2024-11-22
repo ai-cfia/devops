@@ -7,7 +7,6 @@ https://docs.github.com/en/rest/packages/packages?apiVersion=2022-11-28
 
 import os
 import requests
-import sys
 from requests.auth import HTTPBasicAuth
 
 """
@@ -17,7 +16,7 @@ def delete_old_image(version_id, org, headers, auth):
     url_delete_previous_version = f"https://api.github.com/orgs/{org}/packages/container/{container_name}/versions/{version_id}"
     response = requests.delete(url_delete_previous_version, headers=headers, auth=auth)
     if response.status_code == 204:
-        print(f'Previous container deleted!')
+        print('Previous container deleted!')
     else:
         raise Exception(f"Error deleting the previous container: {response.status_code} {response.text}")
 
@@ -81,12 +80,11 @@ if __name__ == "__main__":
     """
     If there's no previous image to delete, we will stop the script (sys.exit()).
     """
-    print_console(f"Looking for the previous tag...")
+    print_console("Looking for the previous tag...")
     try:
         previous_tag, version_id = find_previous_container_tag(response.json(), unique_tag_formatted)
     except Exception as e:
         print(e)
-        sys.exit() 
     print("Done!")
 
     print_console(f"Deleting the previous container with tag ({previous_tag}) and version_id {version_id}...")
