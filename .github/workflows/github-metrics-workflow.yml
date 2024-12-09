@@ -1,0 +1,74 @@
+name: Github metrics workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      start_date:
+        required: true
+        description: "Enter start date (format: yyyy-mm-dd)"
+        type: string
+      end_date:
+        required: true
+        description: "Enter end date (format: yyyy-mm-dd)"
+        type: string
+      selected_members:
+        required: false
+        description: "Enter selected members (format: Bob,Alice,...,)"
+        default: '*'
+      selected_repositories:
+        required: false
+        description: "Enter selected repositories (format: fertiscan-backend,fertiscan-frontend,...,)"
+        default: '*'
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate token from Github application (GH app for workflows)
+        id: generate-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.GH_WORKFLOW_APP_ID }}
+          private-key: ${{ secrets.GH_WORKFLOW_APP_PEM }}
+
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+
+      - name: Install the packAge from github.com/ai-cfia/devops inside the user-site
+        run: >
+          python -m pip install --user \
+          git+https://$DEVOPS_USER:$DEVOPS_USER_TOKEN@github.com/ai-cfia/devops.git@main
+        env:
+          USER: ${{ secrets.DEVOPS_USER }}
+          USER_TOKEN: ${{ secrets.DEVOPS_USER_TOKEN }}
+
+      - name: Access user site-packages
+        run: |
+          USER_SITE=$(python -m site --user-site)
+          echo "Path to site-packages is $USER_SITE"
+          echo "USER_SITE=$USER_SITE" >> $GITHUB_ENV
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run github metrics script
+        run: python $USER_SITE/github-metrics/github_metrics.py
+        env:
+          GITHUB_ACCESS_TOKEN: ${{ steps.generate-token.outputs.token }}
+          START_DATE: ${{ github.event.inputs.start_date }}
+          END_DATE: ${{ github.event.inputs.end_date }}
+          SELECTED_REPOSITORIES: ${{ github.event.inputs.selected_repositories }}
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: github_metrics-${{ github.event.inputs.start_date }}-${{ github.event.inputs.end_date }}
+          path: $USER_SITE/github-metrics/github_metrics-${{ github.event.inputs.start_date }}-${{ github.event.inputs.end_date }}.pdf
