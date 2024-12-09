@@ -1,2 +1,4 @@
 PyGithub
 python-dotenv
+pytz
+reportlab
