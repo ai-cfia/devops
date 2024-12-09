@@ -19,7 +19,7 @@ on:
         required: false
         description: "Enter selected repositories (format: fertiscan-backend,fertiscan-frontend,...,)"
         default: '*'
-      
+
 jobs:
   generate-report:
     runs-on: ubuntu-latest
@@ -71,5 +71,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: github_metrics-${{ github.event.inputs.start_date }}-${{ github.event.inputs.end_date }}
-          path: $USER_SITE/github-metrics/github_metrics-${{ github.event.inputs.start_date }}-${{ github.event.inputs.end_date }}.pdf 
- 
+          path: $USER_SITE/github-metrics/github_metrics-${{ github.event.inputs.start_date }}-${{ github.event.inputs.end_date }}.pdf
