@@ -21,6 +21,8 @@ setup(
         'requests',
         'jinja2',
         'PyGithub',
-        'python-dotenv'
+        'python-dotenv',
+        'pytz',
+        'reportlab'
     ],
 )

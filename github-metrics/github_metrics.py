@@ -13,7 +13,7 @@ from utils import get_commits_related_to_issue, get_linked_pr
 EST = pytz.timezone('America/Toronto')
 ANY = '*'
 ORGANIZATION_NAME = 'ai-cfia'
-MAX_WORKERS = 50
+MAX_WORKERS = 10
 
 def collect_user_data(member, repos, start_date, end_date, selected_repository):
     username = member.login
@@ -107,17 +107,17 @@ if __name__ == "__main__":
 
     gh_access_token = os.getenv("GITHUB_ACCESS_TOKEN")
 
-    # e.g 2024-12-01 (yyyy/MM/dd)
+    # e.g 2024-12-01 (yyyy-MM-dd)
     start_date_str = os.getenv("START_DATE")
     end_date_str = os.getenv("END_DATE")
 
     # from https://github.com/ai-cfia/github-workflows/blob/main/repo_project.txt
     # e.g fertiscan-backend,fertiscan-frontend,fertiscan-pipeline,nachet-backend,nachet-frontend,nachet-model,howard,github-workflows,devops,finesse-backend,finesse-frontend,finesse-data
-    selected_repository = os.getenv("SELECTED_REPOSITORY")
-    if not selected_repository:
+    selected_repositories = os.getenv("SELECTED_REPOSITORIES")
+    if not selected_repositories:
         repos = ANY
     else:
-        repos = selected_repository.split(',')
+        repos = selected_repositories.split(',')
     
     # e.g Bob,Alice,...
     selected_members = os.getenv("SELECTED_MEMBERS")
