@@ -1,4 +1,4 @@
-name: Generate PDF Report
+name: Github metrics workflow
 
 on:
   workflow_dispatch:
