@@ -94,11 +94,18 @@ def main(gh_access_token, start_date_str, end_date_str, selected_repository, sel
                 futures.append(executor.submit(collect_user_data, member, repos, start_date, end_date, selected_repository))
 
         for future in futures:
-            user_data = future.result()
-            users_data.append(user_data)
-            print_results(user_data['username'], user_data['assigned_issues'], user_data['commits_per_issue'], 
-                          user_data['issues_with_linked_pr'], user_data['reviews_done'], user_data['issue_comments'], 
-                          user_data['issues_created'], user_data['prs_created'], user_data['prs_merged'], user_data['prs_closed'])
+            try:
+                user_data = future.result()
+                users_data.append(user_data)
+                print_results(
+                    user_data['username'], user_data['assigned_issues'], 
+                    user_data['commits_per_issue'], user_data['issues_with_linked_pr'], 
+                    user_data['reviews_done'], user_data['issue_comments'], 
+                    user_data['issues_created'], user_data['prs_created'], 
+                    user_data['prs_merged'], user_data['prs_closed']
+                )
+            except Exception as e:
+                print(f"Error processing data for one of the users: {e}")
 
     generate_pdf_for_all_users(users_data, start_date_str, end_date_str)
 
