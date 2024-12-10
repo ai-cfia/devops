@@ -72,4 +72,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: github_metrics-${{ github.event.inputs.start_date }}-${{ github.event.inputs.end_date }}
-          path: $USER_SITE/github-metrics/github_metrics-${{ github.event.inputs.start_date }}-${{ github.event.inputs.end_date }}.pdf
+          path: ${{ github.event.inputs.start_date }}-${{ github.event.inputs.end_date }}.pdf
