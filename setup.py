@@ -8,6 +8,7 @@ setup(
         'console_scripts': [
             'remove-previous-images=remove_previous_image.remove_previous_image:main',
             'webtop-template=webtop_template.webtop_template:main',
+            'github-metrics=github_metrics.github_metrics:main',
         ],
     },
     url='https://github.com/ai-cfia/devops.git',
@@ -20,6 +21,8 @@ setup(
         'requests',
         'jinja2',
         'PyGithub',
-        'python-dotenv'
+        'python-dotenv',
+        'pytz',
+        'reportlab'
     ],
 )
