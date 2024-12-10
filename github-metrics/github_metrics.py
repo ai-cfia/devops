@@ -126,4 +126,5 @@ if __name__ == "__main__":
     else:
         members = selected_members.split(',')
 
+    print("Starting!")
     main(gh_access_token, start_date_str, end_date_str, repos, members)
