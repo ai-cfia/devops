@@ -40,7 +40,7 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Install the packAge from github.com/ai-cfia/devops inside the user-site
+      - name: Install the package from github.com/ai-cfia/devops inside the user-site
         run: >
           python -m pip install --user \
           git+https://$DEVOPS_USER:$DEVOPS_USER_TOKEN@github.com/ai-cfia/devops.git@main
@@ -66,6 +66,7 @@ jobs:
           START_DATE: ${{ github.event.inputs.start_date }}
           END_DATE: ${{ github.event.inputs.end_date }}
           SELECTED_REPOSITORIES: ${{ github.event.inputs.selected_repositories }}
+          SELECTED_MEMBERS: ${{ github.event.inputs.selected_members }}
 
       - name: Upload PDF artifact
         uses: actions/upload-artifact@v4
