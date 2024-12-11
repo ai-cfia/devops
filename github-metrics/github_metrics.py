@@ -133,4 +133,8 @@ if __name__ == "__main__":
     else:
         members = selected_members.split(',')
 
+    print(f"=== Start date: {start_date_str}, End date: {end_date_str} ===", flush=True)
+    print(f"=== Members: {members} ===", flush=True)
+    print(f"=== Repos: {repos} ===", flush=True)
+
     main(gh_access_token, start_date_str, end_date_str, repos, members)
