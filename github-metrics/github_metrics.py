@@ -13,7 +13,7 @@ from utils import get_commits_related_to_issue, get_linked_pr
 EST = pytz.timezone('America/Toronto')
 ANY = '*'
 ORGANIZATION_NAME = 'ai-cfia'
-MAX_WORKERS = 10
+MAX_WORKERS = 8
 
 def collect_user_data(member, repos, start_date, end_date, selected_repository):
     username = member.login
