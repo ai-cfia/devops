@@ -52,6 +52,7 @@ def generate_pdf_for_all_users(users_data, start_date_str, end_date_str):
     flowables = []
 
     for user_data in users_data:
+        print(f"Adding {user_data['username']} to the PDF", flush=True)
         USERNAME = user_data['username']
         assigned_issues = user_data['assigned_issues']
         commits_per_issue = user_data['commits_per_issue']

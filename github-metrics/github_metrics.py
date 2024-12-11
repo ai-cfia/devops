@@ -62,7 +62,7 @@ def collect_user_data(member, repos, start_date, end_date, selected_repository):
                 if pr.closed_at and not pr.merged and start_date <= pr.closed_at <= end_date:
                     prs_closed.append(pr)
             
-            print(f"=== repo {repo.name} done for {username}")
+            print(f"=== repo {repo.name} done for {username}", flush=True)
 
     return {
         'username': username,
@@ -90,7 +90,7 @@ def main(gh_access_token, start_date_str, end_date_str, selected_repository, sel
         futures = []
         for member in members:
             if member.login in selected_members or selected_members == ANY:
-                print(f"fetching github metrics for {member.login}")
+                print(f"fetching github metrics for {member.login}", flush=True)
                 futures.append(executor.submit(collect_user_data, member, repos, start_date, end_date, selected_repository))
 
         for future in futures:
@@ -105,7 +105,7 @@ def main(gh_access_token, start_date_str, end_date_str, selected_repository, sel
                     user_data['prs_merged'], user_data['prs_closed']
                 )
             except Exception as e:
-                print(f"Error processing data for one of the users: {e}")
+                print(f"Error processing data for one of the users: {e}", flush=True)
 
     generate_pdf_for_all_users(users_data, start_date_str, end_date_str)
 
@@ -133,5 +133,4 @@ if __name__ == "__main__":
     else:
         members = selected_members.split(',')
 
-    print("Starting!")
     main(gh_access_token, start_date_str, end_date_str, repos, members)
