@@ -22,7 +22,7 @@ on:
 
 jobs:
   generate-report:
-    runs-on: ubuntu-latest
+    runs-on: gh-runner
 
     steps:
       - name: Generate token from Github application (GH app for workflows)
