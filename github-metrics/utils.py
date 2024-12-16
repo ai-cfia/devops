@@ -26,11 +26,11 @@ def check_rate_limit(g):
     if remaining < 100:
         sleep_time = reset_timestamp - current_timestamp + 10
         if sleep_time > 0:
-            print(f"Rate limit about to be exceeded. Sleeping for {sleep_time} seconds.")
+            print(f"Rate limit about to be exceeded. Sleeping for {sleep_time} seconds.", flush=True)
             time.sleep(sleep_time)
 
 def log_rate_limit(g):
     rate_limit = g.get_rate_limit()
     remaining = rate_limit.core.remaining
     reset_time = rate_limit.core.reset.strftime('%Y-%m-%d %H:%M:%S')
-    print(f"Remaining requests: {remaining}, Rate limit resets at: {reset_time}")
+    print(f"Remaining requests: {remaining}, Rate limit resets at: {reset_time}", flush=True)
