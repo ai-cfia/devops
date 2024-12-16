@@ -8,14 +8,14 @@ from dotenv import load_dotenv
 from concurrent.futures import ThreadPoolExecutor
 
 from export import print_results,generate_pdf_for_all_users
-from utils import get_commits_related_to_issue, get_linked_pr
+from utils import get_commits_related_to_issue, get_linked_pr, check_rate_limit, log_rate_limit
 
 EST = pytz.timezone('America/Toronto')
 ANY = '*'
 ORGANIZATION_NAME = 'ai-cfia'
 MAX_WORKERS = 8
 
-def collect_user_data(member, repos, start_date, end_date, selected_repository):
+def collect_user_data(member, repos, start_date, end_date, selected_repository, g):
     username = member.login
     assigned_issues = []
     commits_per_issue = defaultdict(int)
@@ -29,6 +29,8 @@ def collect_user_data(member, repos, start_date, end_date, selected_repository):
 
     for repo in repos:
         if repo.name in selected_repository or selected_repository == ANY:
+            check_rate_limit(g)
+            log_rate_limit(g)
             for issue in repo.get_issues(assignee=member, since=start_date, state='all'):
                 if issue.created_at <= end_date:
                     assigned_issues.append(issue)
@@ -91,7 +93,7 @@ def main(gh_access_token, start_date_str, end_date_str, selected_repository, sel
         for member in members:
             if member.login in selected_members or selected_members == ANY:
                 print(f"fetching github metrics for {member.login}", flush=True)
-                futures.append(executor.submit(collect_user_data, member, repos, start_date, end_date, selected_repository))
+                futures.append(executor.submit(collect_user_data, member, repos, start_date, end_date, selected_repository, g))
 
         for future in futures:
             try:
