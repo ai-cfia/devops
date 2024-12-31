@@ -1,0 +1,49 @@
+name: Azure DevOps Wiki to SharePoint
+
+on:
+  schedule:
+    - cron: '0 6 * * 1' # Every monday at 6h00 UTC (1h00 EST)
+  workflow_dispatch:  
+
+jobs:
+  sync_wiki:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Install Office 365 CLI
+      uses: pnp/action-cli@v2
+
+    - name: Configure git
+      run: |
+        git config --global user.name "GitHub Action"
+        git config --global user.email "action@github.com"
+
+    - name: Clone the wiki from Azure Devops
+      env:
+        AZURE_DEVOPS_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
+      run: |
+        git clone https://:${AZURE_DEVOPS_TOKEN}@dev.azure.com/CFIA-DevOps-ACIA/AI-Lab/_git/AI-Lab.wiki
+      shell: bash
+
+    - name: Login to Office 365
+      env:
+        O365_USERNAME: ${{ secrets.SHAREPOINT_USERNAME }}
+        O365_PASSWORD: ${{ secrets.SHAREPOINT_PASSWORD }}
+      run: |
+        m365 login --authType password --userName "${O365_USERNAME}" --password "${O365_PASSWORD}"
+
+    - name: Delete the old version of the wiki on OneDrive
+      env:
+        SHAREPOINT_SITE_URL: 'https://136gc.sharepoint.com/sites/cfia-ai-lab'
+      run: |
+        m365 spo folder remove --webUrl "${SHAREPOINT_SITE_URL}" --folderUrl 'CFIA AI Lab Team/Documents/Backup' --confirm
+
+    - name: Upload the new version to the wiki on OneDrive
+      env:
+        SHAREPOINT_SITE_URL: 'https://136gc.sharepoint.com/sites/cfia-ai-lab'
+      run: |
+        m365 spo folder add --webUrl "${SHAREPOINT_SITE_URL}" --folderUrl 'CFIA AI Lab Team/Documents/Backup'
+        m365 spo file add --webUrl "${SHAREPOINT_SITE_URL}" --folder 'CFIA AI Lab Team/Documents/Backup' --path './wiki' --recursive
