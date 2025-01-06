@@ -36,6 +36,7 @@ stages:
             inputs:
               targetType: "inline"
               script: |
+                git config --system core.longpaths true
                 git clone https://$(username):$(pat)@dev.azure.com/CFIA-DevOps-ACIA/AI-Lab/_git/AI-Lab.wiki ./wiki
  
           # Only works on a windows machine
