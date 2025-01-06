@@ -49,4 +49,4 @@ stages:
               Destination: "AzureBlob"
               storage: $(storageAccountName)
               ContainerName: "backup"
-              BlobPrefix: "AI-Lab-Wiki-HomePage"
+              BlobPrefix: "wiki"
