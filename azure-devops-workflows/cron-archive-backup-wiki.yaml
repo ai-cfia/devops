@@ -10,7 +10,7 @@ schedules:
     always: true
 
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: "windows-latest"
 
 variables:
   - group: wiki-export
@@ -26,7 +26,7 @@ stages:
             displayName: "Azure CLI Login"
             inputs:
               azureSubscription: $(serviceConnectionName)
-              scriptType: "bash"
+              scriptType: "pscore"
               scriptLocation: "inlineScript"
               inlineScript: |
                 echo "Successfully logged in with Azure CLI"
@@ -38,6 +38,8 @@ stages:
               script: |
                 git clone https://$(username):$(pat)@dev.azure.com/CFIA-DevOps-ACIA/AI-Lab/_git/AI-Lab.wiki ./wiki
  
+          # Only works on a windows machine
+          # 
           - task: AzureFileCopy@4
             displayName: "Upload wiki to Azure Blob Storage"
             inputs:
