@@ -32,10 +32,8 @@ stages:
             inputs:
               targetType: "inline"
               script: |
-                git config --global user.name "Azure DevOps Pipeline"
-                git config --global user.email "pipeline@azuredevops.com"
-                git clone https://$(azureDevopsToken)@dev.azure.com/CFIA-DevOps-ACIA/AI-Lab/_git/AI-Lab.wiki ./wiki
-
+                git clone https://$(username):$(pat)@dev.azure.com/CFIA-DevOps-ACIA/AI-Lab/_git/AI-Lab.wiki ./wiki
+ 
           - task: AzureFileCopy@4
             displayName: "Upload wiki to Azure Blob Storage"
             inputs:
