@@ -26,6 +26,10 @@ stages:
             displayName: "Azure CLI Login"
             inputs:
               azureSubscription: $(serviceConnectionName)
+              scriptType: "bash"
+              scriptLocation: "inlineScript"
+              inlineScript: |
+                echo "Successfully logged in with Azure CLI"
 
           - task: PowerShell@2
             displayName: "Clone Azure DevOps wiki"
