@@ -45,7 +45,7 @@ stages:
             displayName: "Upload wiki to Azure Blob Storage"
             inputs:
               SourcePath: "$(System.DefaultWorkingDirectory)/wiki"
-              azureSubscription: $(azSubscription)
+              azureSubscription: $(serviceConnectionName)
               Destination: "AzureBlob"
               storage: $(storageAccountName)
               ContainerName: "wiki"
