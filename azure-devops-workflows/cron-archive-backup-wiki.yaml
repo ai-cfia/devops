@@ -6,7 +6,7 @@ schedules:
     displayName: Sync wiki every Monday at 6h00 UTC (1h00 EST)
     branches:
       include:
-      - main
+        - main
     always: true
 
 pool:
@@ -45,4 +45,3 @@ stages:
               storage: $(storageAccountName)
               ContainerName: "wiki"
               BlobPrefix: ""
-              cleanDestination: true
