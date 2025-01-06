@@ -1,0 +1,47 @@
+trigger: none
+pr: none
+
+schedules:
+  - cron: '0 6 * * 1'
+    displayName: Sync wiki every Monday at 6h00 UTC (1h00 EST)
+    branches:
+      include:
+        - main
+    always: true
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  - group: wiki-export
+
+stages:
+  - stage: SyncWiki
+    displayName: "Synchronize Azure DevOps wiki to blob storage"
+    jobs:
+      - job: SyncWikiJob
+        displayName: "Clone wiki and upload to Azure Storage"
+        steps:
+          - task: AzureCLI@2
+            displayName: "Azure CLI Login"
+            inputs:
+              azureSubscription: $(serviceConnectionName)
+
+          - task: PowerShell@2
+            displayName: "Clone Azure DevOps wiki"
+            inputs:
+              targetType: "inline"
+              script: |
+                git config --global user.name "Azure DevOps Pipeline"
+                git config --global user.email "pipeline@azuredevops.com"
+                git clone https://$(azureDevopsToken)@dev.azure.com/CFIA-DevOps-ACIA/AI-Lab/_git/AI-Lab.wiki ./wiki
+
+          - task: AzureFileCopy@4
+            displayName: "Upload wiki to Azure Blob Storage"
+            inputs:
+              SourcePath: "$(System.DefaultWorkingDirectory)/wiki"
+              azureSubscription: $(serviceConnectionName)
+              Destination: "AzureBlob"
+              storage: $(storageAccountName)
+              ContainerName: "wiki"
+              BlobPrefix: ""
