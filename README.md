@@ -69,4 +69,3 @@ plateformes.
   sur Kubernetes du laboratoire d'IA de l'ACIA.
 - [Howard-On-Prem](https://github.com/ai-cfia/howard-on-prem): Gère
   l'infrastructure Kubernetes sur site du laboratoire d'IA de l'ACIA.
-
