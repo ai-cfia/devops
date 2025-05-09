@@ -17,6 +17,7 @@ on:
           - tempo
           - loki
           - prometheus
+          - pytorch-cpu
       tag:
         required: true
         description: Version to tag the image
