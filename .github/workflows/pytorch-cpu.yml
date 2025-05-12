@@ -32,13 +32,6 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cache Docker layers
-        uses: actions/cache@v4
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: ${{ runner.os }}-buildx
-
       - name: Extract branch name + remove undesired characters
         shell: bash
         id: extract_branch_name
@@ -60,10 +53,5 @@ jobs:
             ghcr.io/ai-cfia/${{ github.event.inputs.image }}:${{ steps.extract_branch_name.outputs.clean_branch_name || 'latest' }}
           secrets: |
             "user_password=${{ secrets.JUPYTER_SSH_PASSWORD }}"
-          # cache-from: type=local,src=/tmp/.buildx-cache
-          # cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
-
-      - name: Refresh Cache
-        run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

@@ -36,7 +36,7 @@ COPY --chown=${NB_UID}:${NB_GID} requirements.txt .
 COPY --chown=${NB_UID}:${NB_GID} --chmod=755 startup.sh .
 
 
-RUN pip install --no-cache-dir -r requirements.txt && \
+RUN uv pip install --system --no-cache-dir -r requirements.txt && \
     fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
 
