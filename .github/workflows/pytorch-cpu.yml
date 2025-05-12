@@ -59,8 +59,8 @@ jobs:
             ghcr.io/ai-cfia/${{ github.event.inputs.image }}:${{ steps.extract_branch_name.outputs.clean_branch_name || 'latest' }}
           secrets: |
             "user_password=${{ secrets.JUPYTER_SSH_PASSWORD }}"
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
+          # cache-from: type=local,src=/tmp/.buildx-cache
+          # cache-to: type=local,mode=max,dest=/tmp/.buildx-cache-new
 
       - name: Refresh Cache
         run: |
