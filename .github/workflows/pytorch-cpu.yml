@@ -1,3 +1,4 @@
+name: Build and Push PyTorch CPU Docker Image
 on:
   workflow_dispatch:
     inputs:
