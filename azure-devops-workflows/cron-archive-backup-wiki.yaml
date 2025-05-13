@@ -44,7 +44,7 @@ stages:
           - task: AzureFileCopy@4
             displayName: "Upload wiki to Azure Blob Storage"
             inputs:
-              SourcePath: "$(System.DefaultWorkingDirectory)/wiki/AI-Lab-Wiki-HomePage"
+              SourcePath: "$(System.DefaultWorkingDirectory)/wiki"
               azureSubscription: $(serviceConnectionName)
               Destination: "AzureBlob"
               storage: $(storageAccountName)
