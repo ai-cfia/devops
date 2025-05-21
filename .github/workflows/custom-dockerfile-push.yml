@@ -18,6 +18,7 @@ on:
           - loki
           - prometheus
           - pytorch-cpu
+          - trufflehog-verif-server
       tag:
         required: true
         description: Version to tag the image
