@@ -24,7 +24,7 @@ class Verifier(BaseHTTPRequestHandler):
 
             self.log_message("Received payload: %s", data)
 
-            secret_values = data.get('ailab_detector', {}).get('ailab', [])
+            secret_values = data.get('ailab_secret_detector', {}).get('secret', [])
 
             if not secret_values:
                 self.send_response(400)
