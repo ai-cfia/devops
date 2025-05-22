@@ -4,7 +4,7 @@ import re
 
 AUTH_HEADER = 'trufflehog verif' # can be a secret if needed
 
-pattern = re.compile(r'ailab-.*')
+pattern = re.compile(r'ailabsecret-.*')
 
 class Verifier(BaseHTTPRequestHandler):
     def do_GET(self):
