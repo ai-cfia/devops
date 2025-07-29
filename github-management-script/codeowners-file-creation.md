@@ -1,29 +1,91 @@
-# CODEOWNERS Automation Script
+# 🎯 Script: Global CODEOWNERS Create/Update with `@ai-cfia/ai-lab-team`
 
-This script automates the creation of CODEOWNERS files within repositories of
-the CFIA organization and applies tag rules based on repository names.
+## Purpose
 
-## Functionality
+This script automates the creation or update of the `.github/CODEOWNERS` file in **all public and private repositories** within the GitHub organization `ai-cfia`.
 
-* **Creates CODEOWNERS Files:**  The script generates CODEOWNERS files in target
-  repositories, defining code ownership rules to streamline the review process.
-* **Customizable Team Tagging:** It tags relevant teams (`backend`, `frontend`,
-  `data`, `devops`, `finesse`, `harvester`, `nachet`) based on the repository
-  name.
-* **DevOps Ownership:** The script assigns specific ownership to the DevOps team
-  for files within the `.github` directory, Dockerfile, and docker-compose
-  configurations.
+Each target repository will receive a `CODEOWNERS` file with **a single rule**:
+
+```
+# This CODEOWNERS file is auto-generated. See the script at <https://github.com/ai-cfia/devops/blob/main/github-management-script/codeowners-file-creation.sh> for modification details.
+
+* @ai-cfia/ai-lab-team
+```
+
+Any existing CODEOWNERS configuration will be replaced, assigning full code ownership to the `@ai-cfia/ai-lab-team`.
+
+---
+
+## How It Works
+
+1. Prompts the user for a **GitHub Personal Access Token** (entered securely).
+2. Retrieves all repositories from the organization (`type=all`, includes public and private).
+3. For each repository:
+   - Checks if a `.github/CODEOWNERS` file exists.
+   - If it exists, it is **overwritten**.
+   - If it does not exist, it is **created**.
+4. The update is performed via the GitHub REST API using the `PUT /repos/:org/:repo/contents/.github/CODEOWNERS` endpoint.
+
+---
 
 ## Requirements
 
-* **GitHub Personal Access Token (PAT):** A PAT with the `repo` scope.
+- A GitHub **Personal Access Token** (`GITHUB_TOKEN`) with the following scopes:
+  - `repo`
+  - `contents:write` (included in `repo`)
+- The `jq` CLI tool installed:
+  - Ubuntu/Debian: `sudo apt install jq`
+  - macOS: `brew install jq`
+- Standard CLI tools: `bash`, `curl`, `base64`
+
+---
 
 ## Usage
 
-1. **Set Environment Variables:**
-    1. `GITHUB_TOKEN`:  Store your GitHub PAT in this environment variable.
-    2. `ORG_NAME`: Set this to the name of your target GitHub organization.
-2. **Execute the Script:** Run the script. It will:
-    1. Prompt for your GitHub token (if not set).
-    2. Retrieve a list of repositories within the organization.
-    3. Process each repository, generating and adding the CODEOWNERS file.
+```bash
+chmod +x codeowners-file-creation.sh
+./codeowners-file-creation.sh
+```
+
+The script will prompt for your GitHub token (it is hidden during input).
+
+---
+
+## Example Output
+
+```
+Please enter your GitHub token:
+📦 Updating CODEOWNERS for project-alpha
+📦 Updating CODEOWNERS for backend-service
+📦 Updating CODEOWNERS for frontend-template
+```
+
+---
+
+## Recommended Repository Structure
+
+Store the script and this documentation in a central DevOps repository:
+
+```
+devops/
+└── github-management-script/
+    ├── codeowners-file-creation.sh
+    └── codeowners-file-creation.md
+```
+
+---
+
+## ⚠️ Warning
+
+This script **overwrites any existing CODEOWNERS file**.  
+If you have a customized ownership setup by directory or team, it will be removed.
+
+It is strongly recommended to:
+- Test on a single repository first.
+- Back up your existing CODEOWNERS rules if needed.
+
+---
+
+## Source
+
+[View the script `codeowners-file-creation.sh`](https://github.com/ai-cfia/devops/blob/main/github-management-script/codeowners-file-creation.sh)
