@@ -13,7 +13,7 @@ pool:
   vmImage: "ubuntu-latest"
 
 variables:
-  - group: wiki-backup
+  - group: wiki-export
 
 stages:
   - stage: SyncWiki
@@ -54,9 +54,23 @@ stages:
               script: |
                 # Clear existing content and replace with new wiki content
                 rm -rf ./target-repo/*
-                cp -r ./wiki/* ./target-repo/
+                cp -r ./wiki/AI-Lab-Wiki-HomePage/* ./target-repo/
+                cp ./wiki/AI-Lab-Wiki-HomePage.md ./target-repo/
                 
-                echo "Wiki content synchronized - all existing files replaced"
+                mv ./target-repo/AI-Lab-Wiki-HomePage.md README.md
+                
+                # Decode URL encoding using python for all files
+                cd ./target-repo
+                find . -type f | while read file; do
+                  newname=$(python3 -c "import urllib.parse; print(urllib.parse.unquote('$(basename "$file")'))")
+                  newpath="$(dirname "$file")/$newname"
+                  if [ "$file" != "$newpath" ]; then
+                    mv "$file" "$newpath"
+                    echo "Renamed: $file -> $newpath"
+                  fi
+                done
+                
+                echo "Wiki content synchronized - all existing files replaced and filenames decoded"
 
           - task: Bash@3
             displayName: "Commit and push to GitHub"
