@@ -10,43 +10,66 @@ schedules:
     always: true
 
 pool:
-  vmImage: "windows-latest"
+  vmImage: "ubuntu-latest"
 
 variables:
-  - group: wiki-export
+  - group: wiki-backup
 
 stages:
   - stage: SyncWiki
-    displayName: "Synchronize Azure DevOps wiki to blob storage"
+    displayName: "Synchronize Azure DevOps wiki to GitHub repository"
     jobs:
       - job: SyncWikiJob
-        displayName: "Clone wiki and upload to Azure Storage"
+        displayName: "Clone wiki and push to GitHub repository"
         steps:
-          - task: AzureCLI@2
-            displayName: "Azure CLI Login"
+          - task: Bash@3
+            displayName: "Configure Git"
             inputs:
-              azureSubscription: $(serviceConnectionName)
-              scriptType: "pscore"
-              scriptLocation: "inlineScript"
-              inlineScript: |
-                echo "Successfully logged in with Azure CLI"
+              targetType: "inline"
+              script: |
+                git config --global user.name "Azure DevOps Wiki Sync"
+                git config --global user.email "devops@cfia-acia.gc.ca"
+                git config --global core.longpaths true
 
-          - task: PowerShell@2
+          - task: Bash@3
             displayName: "Clone Azure DevOps wiki"
             inputs:
               targetType: "inline"
               script: |
-                git config --system core.longpaths true
                 git clone https://$(username):$(pat)@dev.azure.com/CFIA-DevOps-ACIA/AI-Lab/_git/AI-Lab.wiki ./wiki
- 
-          # Only works on a windows machine
-          # 
-          - task: AzureFileCopy@6
-            displayName: "Upload wiki to Azure Blob Storage"
+                echo "Wiki cloned successfully"
+
+          - task: Bash@3
+            displayName: "Clone target GitHub repository"
             inputs:
-              SourcePath: "$(System.DefaultWorkingDirectory)/wiki/AI-Lab-Wiki-HomePage"
-              azureSubscription: $(serviceConnectionName)
-              Destination: "AzureBlob"
-              storage: $(storageAccountName)
-              ContainerName: "backup"
-              BlobPrefix: "wiki"
+              targetType: "inline"
+              script: |
+                git clone https://$(githubToken)@github.com/ai-cfia/$(targetRepo).git ./target-repo
+                echo "Target repository cloned successfully"
+
+          - task: Bash@3
+            displayName: "Sync wiki content to GitHub repository"
+            inputs:
+              targetType: "inline"
+              script: |
+                # Clear existing content and replace with new wiki content
+                rm -rf ./target-repo/*
+                cp -r ./wiki/* ./target-repo/
+                
+                echo "Wiki content synchronized - all existing files replaced"
+
+          - task: Bash@3
+            displayName: "Commit and push to GitHub"
+            inputs:
+              targetType: "inline"
+              script: |
+                cd ./target-repo
+                git add .
+                
+                if ! git diff --staged --quiet; then
+                  git commit -m "Automated wiki (latest) backup - $(date '+%Y-%m-%d %H:%M:%S UTC')"
+                  git push origin main
+                  echo "Changes committed and pushed successfully"
+                else
+                  echo "No changes detected, skipping commit"
+                fi
