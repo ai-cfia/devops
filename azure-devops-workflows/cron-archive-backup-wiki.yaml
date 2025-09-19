@@ -54,10 +54,9 @@ stages:
               script: |
                 # Clear existing content and replace with new wiki content
                 rm -rf ./target-repo/*
+                mv ./wiki/AI-Lab-Wiki-HomePage.md ./wiki/README.md
+                cp ./wiki/README.md ./target-repo/
                 cp -r ./wiki/AI-Lab-Wiki-HomePage/* ./target-repo/
-                cp ./wiki/AI-Lab-Wiki-HomePage.md ./target-repo/
-                
-                mv ./target-repo/AI-Lab-Wiki-HomePage.md README.md
                 
                 # Decode URL encoding using python for all files
                 cd ./target-repo
