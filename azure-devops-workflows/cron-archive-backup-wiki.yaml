@@ -61,9 +61,11 @@ stages:
                 
                 # Decode URL encoding using python for all files
                 cd ./target-repo
-                find . -type f | while read file; do
-                  newname=$(python3 -c "import urllib.parse; print(urllib.parse.unquote('$(basename "$file")'))")
-                  newpath="$(dirname "$file")/$newname"
+                find . -type f -print0 | while IFS= read -r -d '' file; do
+                  filename=$(basename "$file")
+                  dirname=$(dirname "$file")
+                  newname=$(printf '%s\n' "$filename" | python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.stdin.read().strip()))")
+                  newpath="$dirname/$newname"
                   if [ "$file" != "$newpath" ]; then
                     mv "$file" "$newpath"
                     echo "Renamed: $file -> $newpath"
