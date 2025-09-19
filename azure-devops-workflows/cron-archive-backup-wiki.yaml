@@ -13,7 +13,7 @@ pool:
   vmImage: "ubuntu-latest"
 
 variables:
-  - group: wiki-export
+  - group: wiki-backup
 
 stages:
   - stage: SyncWiki
