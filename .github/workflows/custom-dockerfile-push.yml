@@ -19,6 +19,7 @@ on:
           - prometheus
           - pytorch-cpu
           - trufflehog-verif-server
+          - fiftyone
       tag:
         required: true
         description: Version to tag the image
